@@ -16,10 +16,15 @@ app.use(function (req, res, next) {
     });
 
 app.get('/:lan', async(req,res) => {
-    const lang_code = req.query.dist;
-    const result = client.query(`select lan_trans from translation_table where lan_code = '${lang_code}'`)
-    const data = (await result).rows;
-    res.send((data[0].lan_trans[0]));
+    try{
+        const lang_code = req.query.dist;
+        const result = await client.query(`select lan_trans from translation_table where lan_code = '${lang_code}'`)
+        const data = (await result).rows;
+        res.send((data[0].lan_trans[0]));
+    }
+    catch(error){
+        console.log(error);
+    }
 })
 
 
